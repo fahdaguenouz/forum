@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"Forum/controllers"
+	"Forum/back-end/controllers"
 	"fmt"
 	"net/http"
 )

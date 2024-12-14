@@ -1,13 +1,13 @@
 package controllers
 
 import (
-	"Forum/models"
+	"Forum/back-end/models"
 	"html/template"
 	"net/http"
 )
 
 func ErrorController(w http.ResponseWriter, r *http.Request, statusCode int) {
-	tmp, err := template.ParseFiles("views/error.html")
+	tmp, err := template.ParseFiles("Front-end/views/error.html")
 	if err != nil {
         http.Error(w, err.Error(), http.StatusInternalServerError)
         return

@@ -1,8 +1,8 @@
 package main
 
 import (
-	"Forum/config"
-	"Forum/routes"
+	"Forum/back-end/config"
+	"Forum/back-end/routes"
 	"os"
 )
 
