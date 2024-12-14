@@ -13,15 +13,19 @@ func Config(args []string) {
 	}
 	cmd := args[1]
 	fmt.Println(cmd)
-	if cmd == "--migrate" {
-		err := Migrate("db.sql", "./database.sqlite")
+	if cmd == "--migrate" || cmd == "-m" {
+		err := Migrate("./back-end/database/db.sql", "./back-end/database/database.db")
 		if err != nil {
 			log.Fatalf("Migration failed: %v", err)
 		}
 		fmt.Println("Database migration completed successfully.")
 		return
 	} else if cmd == "--seed" {
-		Seeders()
+		err := Seeders("./back-end/database/database.db", "./back-end/database/seeder.sql")
+		if err != nil {
+			log.Fatalf("Seeder failed: %v", err)
+		}
+		fmt.Println("Seeder completed successfully.")
 	} else {
 		fmt.Println("Invalid command try : --migrate or --seed")
 		return

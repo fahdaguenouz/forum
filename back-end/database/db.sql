@@ -1,44 +1,60 @@
-
-create table if not exists users (
-  id bigint primary key generated always as identity,
-  username text not null unique,
-  email text not null unique,
-  password text not null,
-  created_at timestamptz default now()
+CREATE TABLE IF NOT EXISTS users (
+  id INTEGER PRIMARY KEY AUTOINCREMENT, -- Changed from IDENTITY to AUTOINCREMENT
+  username TEXT NOT NULL UNIQUE,
+  email TEXT NOT NULL UNIQUE,
+  password TEXT NOT NULL,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP
 );
 
-create table if not exists posts (
-  id bigint primary key generated always as identity,
-  user_id bigint references users (id),
-  title text not null,
-  content text not null,
-  created_at timestamptz default now()
+CREATE TABLE IF NOT EXISTS posts (
+  id INTEGER PRIMARY KEY AUTOINCREMENT, -- Changed from IDENTITY to AUTOINCREMENT
+  user_id INTEGER NOT NULL,
+  title TEXT NOT NULL,
+  content TEXT NOT NULL,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users (id)
 );
 
-create table if not exists categories (
-  id bigint primary key generated always as identity,
-  name text not null unique
+CREATE TABLE IF NOT EXISTS categories (
+  id INTEGER PRIMARY KEY AUTOINCREMENT, -- Changed from IDENTITY to AUTOINCREMENT
+  name TEXT NOT NULL UNIQUE
 );
 
-create table if not exists post_categories (
-  post_id bigint references posts (id),
-  category_id bigint references categories (id),
-  primary key (post_id, category_id)
+CREATE TABLE IF NOT EXISTS post_categories (
+  post_id INTEGER NOT NULL,
+  category_id INTEGER NOT NULL,
+  PRIMARY KEY (post_id, category_id),
+  FOREIGN KEY (post_id) REFERENCES posts (id),
+  FOREIGN KEY (category_id) REFERENCES categories (id)
 );
 
-create table if not exists comments (
-  id bigint primary key generated always as identity,
-  post_id bigint references posts (id),
-  user_id bigint references users (id),
-  content text not null,
-  created_at timestamptz default now()
+CREATE TABLE IF NOT EXISTS comments (
+  id INTEGER PRIMARY KEY AUTOINCREMENT, -- Changed from IDENTITY to AUTOINCREMENT
+  post_id INTEGER NOT NULL,
+  user_id INTEGER NOT NULL,
+  content TEXT NOT NULL,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (post_id) REFERENCES posts (id),
+  FOREIGN KEY (user_id) REFERENCES users (id)
 );
 
-create table if not exists likes (
-  id bigint primary key generated always as identity,
-  user_id bigint references users (id),
-  post_id bigint references posts (id),
-  comment_id bigint references comments (id),
-  is_like boolean not null,
-  created_at timestamptz default now()
+CREATE TABLE IF NOT EXISTS likes (
+  id INTEGER PRIMARY KEY AUTOINCREMENT, -- Changed from IDENTITY to AUTOINCREMENT
+  user_id INTEGER NOT NULL,
+  post_id INTEGER, -- Nullable for post likes
+  comment_id INTEGER, -- Nullable for comment likes
+  is_like BOOLEAN NOT NULL,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users (id),
+  FOREIGN KEY (post_id) REFERENCES posts (id),
+  FOREIGN KEY (comment_id) REFERENCES comments (id)
+);
+
+CREATE TABLE IF NOT EXISTS sessions (
+  id INTEGER PRIMARY KEY AUTOINCREMENT, -- Changed from IDENTITY to AUTOINCREMENT
+  user_id INTEGER NOT NULL,
+  session_token TEXT NOT NULL UNIQUE,
+  expires_at TEXT NOT NULL,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users (id)
 );

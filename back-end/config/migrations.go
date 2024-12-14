@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"io/ioutil"
+	_"github.com/mattn/go-sqlite3"
 )
 
 func Migrate(schemaFile string, databaseFile string) error {
