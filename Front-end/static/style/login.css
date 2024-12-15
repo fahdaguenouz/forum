@@ -4,7 +4,10 @@ body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
 }
-
+.homeLink{
+    text-decoration: none;
+    color: white;
+}
 /* Navigation Bar */
 .navbar {
     display: flex;

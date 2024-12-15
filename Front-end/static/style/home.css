@@ -5,6 +5,10 @@ body {
     padding: 0;
 }
 
+.homeLink{
+    text-decoration: none;
+    color: white;
+}
 /* Navigation Bar */
 .navbar {
     background-color: #4CAF50;
