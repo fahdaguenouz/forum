@@ -1,0 +1,128 @@
+/* General Body and Container Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Navigation Bar */
+.navbar {
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 10;
+}
+
+.navbar .title {
+    font-size: 30px;
+}
+
+.navbar .buttons button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.navbar .buttons button:hover {
+    background-color: #45a049;
+}
+
+/* right Side Menu (Sidebar) */
+.right-menu {
+    position: fixed;
+    top: 60px; /* Adjust to start below the navbar */
+    right: 0;
+    width: 200px;
+    background-color: #f9f9f9;
+    border-right: 1px solid #ddd;
+    padding: 20px;
+    box-sizing: border-box;
+    height: 100%; /* Make it full height */
+}
+
+.right-menu ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.right-menu li {
+    margin: 10px 0;
+}
+
+.right-menu a {
+    text-decoration: none;
+    color: black;
+    padding: 8px;
+    display: block;
+}
+
+.right-menu a:hover {
+    background-color: #f0f0f0;
+}
+
+/* Dropdown Menu for Categories */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+right
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+}right
+
+.dropbtn:hover {
+    background-color: #45a049;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f0f0f0;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Main Content */
+.main-content {
+    margin-right: 220px; /* Make room for the sidebar */
+    padding: 20px;
+    margin-top: 80px; /* Space for the navbar */
+}
+
+.main-content h1 {
+    font-size: 40px;
+    margin-bottom: 20px;
+}
+
+.main-content p {
+    font-size: 18px;
+}

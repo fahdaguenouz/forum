@@ -3,11 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style/home.css">
     <title>Forum Home</title>
 </head>
 <body>
-    <h1>Welcome hhhh</h1>
-    <h1>Welcome </h1>
-
+    <body>
+        <div class="navbar">
+            <div class="title">Forum</div>
+            <div class="buttons">
+                <button onclick="window.location.href='/register'">Register</button>
+                <button onclick="window.location.href='/login'">Login</button>
+            </div>
+        </div>
+    
+        <div class="right-menu">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Categories</a>
+                    <div class="dropdown-content">
+                        <a href="#">General</a>
+                        <a href="#">Technology</a>
+                        <a href="#">Sports</a>
+                        <a href="#">Entertainment</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    
+        <!-- Main Content -->
+        <div class="main-content">
+            <h1>Welcome to the Forum!</h1>
+            <p>Explore discussions, share your thoughts, and connect with others.</p>
+        </div>
+    </body>
+    </html>
 </body>
 </html>
