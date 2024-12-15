@@ -3,7 +3,7 @@ package config
 import (
 	"fmt"
 	"log"
-	
+	"os"
 )
 
 func Config(args []string) {
@@ -14,6 +14,21 @@ func Config(args []string) {
 	cmd := args[1]
 	fmt.Println(cmd)
 	if cmd == "--migrate" || cmd == "-m" {
+		if _, err := os.Stat("./back-end/database/database.db"); err == nil {
+			fmt.Println("The database already exists. Re-migrating will delete all data.")
+			fmt.Print("Are you sure you want to proceed? (yes/no): ")
+			var confirmation string
+			fmt.Scanln(&confirmation)
+			if confirmation != "yes" {
+				fmt.Println("Migration canceled.")
+				return
+			}
+			err = os.Remove("./back-end/database/database.db")
+			if err != nil {
+				log.Fatalf("Failed to delete the existing database: %v", err)
+			}
+			fmt.Println("Existing database deleted.")
+		}
 		err := Migrate("./back-end/database/db.sql", "./back-end/database/database.db")
 		if err != nil {
 			log.Fatalf("Migration failed: %v", err)
