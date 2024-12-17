@@ -16,38 +16,49 @@
             <button onclick="window.location.href='/login'">Login</button>
         </div>
     </div>
-        <img class="wave" src="/static/img/wave.png">
-        <div class="container">
-          <div class="img">
-            <img src="/static/img/bg.svg">
-          </div>
-          <div class="login-content">
-            <form action="handleLogin">
-              <img src="/static/img/avatar.svg">
-              <h2 class="title">Welcome</h2>
-              <div class="input-div one">
-                <div class="i">
-                  <i class="fas fa-user"></i>
-                </div>
-                <div class="div">
-                  <h5>Username</h5>
-                  <input type="text" class="input">
-                </div>
-              </div>
-              <div class="input-div pass">
-                <div class="i"> 
-                  <i class="fas fa-lock"></i>
-                </div>
-                <div class="div">
-                  <h5>Password</h5>
-                  <input type="password" class="input">
-                </div>
-              </div>
-              <a href="/register">don't have register now ! </a>
-              <input type="submit" class="btn" value="Login">
-            </form>
-          </div>
+       
+  <div class="container">
+    <div class="forms-container">
+      <div class="form-control signup-form">
+        <form action="#">
+          <h2>Signup</h2>
+          <input type="text" placeholder="Username" required />
+          <input type="email" placeholder="Email" required />
+          <input type="password" placeholder="Password" required />
+          <input type="password" placeholder="Confirm password" required />
+          <button>Signup</button>
+        </form>
+      </div>
+      <div class="form-control signin-form">
+        <form action="#">
+          <h2>Signin</h2>
+          <input type="text" placeholder="Username" required />
+          <input type="password" placeholder="Password" required />
+          <button>Signin</button>
+        </form>
+      </div>
+    </div>
+    <div class="intros-container">
+      <div class="intro-control signin-intro">
+        <div class="intro-control__inner">
+          <h2>Welcome back!</h2>
+          <p>
+            Welcome back! We are so happy to have you here. It's great to see you again. We hope you had a safe and enjoyable time away.
+          </p>
+          <button id="signup-btn">No account yet? Signup.</button>
         </div>
+      </div>
+      <div class="intro-control signup-intro">
+        <div class="intro-control__inner">
+          <h2>Come join us!</h2>
+          <p>
+            We are so excited to have you here.If you haven't already, create an account to get access to exclusive offers, rewards, and discounts.
+          </p>
+          <button id="signin-btn">Already have an account? Signin.</button>
+        </div>
+      </div>
+    </div>
+  </div>
         <script type="text/javascript" src="/static/js/login.js"></script>
       
     

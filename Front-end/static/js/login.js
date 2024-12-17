@@ -1,20 +1,10 @@
-const inputs = document.querySelectorAll(".input");
+const signupBtn = document.getElementById("signup-btn");
+const signinBtn = document.getElementById("signin-btn");
+const mainContainer = document.querySelector(".container");
 
-
-function addcl(){
-	let parent = this.parentNode.parentNode;
-	parent.classList.add("focus");
-}
-
-function remcl(){
-	let parent = this.parentNode.parentNode;
-	if(this.value == ""){
-		parent.classList.remove("focus");
-	}
-}
-
-
-inputs.forEach(input => {
-	input.addEventListener("focus", addcl);
-	input.addEventListener("blur", remcl);
+signupBtn.addEventListener("click", () => {
+  mainContainer.classList.toggle("change");
+});
+signinBtn.addEventListener("click", () => {
+  mainContainer.classList.toggle("change");
 });
