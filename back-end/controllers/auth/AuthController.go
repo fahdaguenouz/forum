@@ -5,15 +5,14 @@ import (
 	"net/http"
 )
 
-func RegisterController(w http.ResponseWriter, r *http.Request) {
-
+func AuthController(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "GET" {
 		controllers.ErrorController(w, r, http.StatusMethodNotAllowed)
 		return
 	}
-	if r.URL.Path != "/register" {
+	if r.URL.Path != "/authentification"{
 		controllers.ErrorController(w, r, http.StatusNotFound)
-		return
+        return
 	}
-	controllers.TemplateController(w, r, "/auth/register", nil)
+	controllers.TemplateController(w, r, "/auth/Auth", nil)
 }

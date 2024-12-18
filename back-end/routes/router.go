@@ -10,8 +10,7 @@ import (
 func Router() {
 	http.HandleFunc("/", controllers.HomeController)
 	http.HandleFunc("/static/", controllers.StaticController)
-	http.HandleFunc("/login", auth.LoginController)
-	http.HandleFunc("/register", auth.RegisterController)
+	http.HandleFunc("/authentification", auth.AuthController)
 
 	//http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("Front-end/static"))))
 	fmt.Println("Server running on http://localhost:3000")
