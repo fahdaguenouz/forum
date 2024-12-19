@@ -42,12 +42,11 @@ CREATE TABLE IF NOT EXISTS likes (
   id INTEGER PRIMARY KEY AUTOINCREMENT, -- Changed from IDENTITY to AUTOINCREMENT
   user_id INTEGER NOT NULL,
   post_id INTEGER, -- Nullable for post likes
-  comment_id INTEGER, -- Nullable for comment likes
   is_like BOOLEAN NOT NULL,
   created_at TEXT DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (user_id) REFERENCES users (id),
-  FOREIGN KEY (post_id) REFERENCES posts (id),
-  FOREIGN KEY (comment_id) REFERENCES comments (id)
+  FOREIGN KEY (post_id) REFERENCES posts (id)
+
 );
 
 CREATE TABLE IF NOT EXISTS sessions (

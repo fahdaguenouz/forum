@@ -2,7 +2,9 @@
 INSERT INTO users (username, email, password) VALUES
 ('john_doe', 'john@example.com', 'password123'),
 ('jane_smith', 'jane@example.com', 'password456'),
-('alice_wonder', 'alice@example.com', 'password789');
+('alice_wonder', 'alice@example.com', 'password789'),
+('yoofahdagchill', 'faguenou@gmail.com', 'fahd12345');
+
 
 -- Insert categories
 INSERT INTO categories (name) VALUES
@@ -36,11 +38,6 @@ INSERT INTO likes (user_id, post_id, is_like) VALUES
 (2, 1, TRUE), -- User 2 likes Post 1
 (3, 1, TRUE), -- User 3 likes Post 1
 (1, 2, TRUE); -- User 1 likes Post 2
-
-INSERT INTO likes (user_id, comment_id, is_like) VALUES
-(1, 1, TRUE), -- User 1 likes Comment 1
-(3, 2, TRUE), -- User 3 likes Comment 2
-(2, 3, FALSE); -- User 2 dislikes Comment 3
 
 -- Insert sessions
 INSERT INTO sessions (user_id, session_token, expires_at) VALUES

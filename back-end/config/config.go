@@ -36,6 +36,7 @@ func Config(args []string) {
 		fmt.Println("Database migration completed successfully.")
 		return
 	} else if cmd == "--seed" {
+		
 		err := Seeders("./back-end/database/database.db", "./back-end/database/seeder.sql")
 		if err != nil {
 			log.Fatalf("Seeder failed: %v", err)
