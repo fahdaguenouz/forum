@@ -2,8 +2,8 @@
 INSERT INTO users (username, email, password) VALUES
 ('john_doe', 'john@example.com', 'password123'),
 ('jane_smith', 'jane@example.com', 'password456'),
-('alice_wonder', 'alice@example.com', 'password789'),
-('yoofahdagchill', 'faguenou@gmail.com', 'fahd12345');
+('alice_wonder', 'alice@example.com', 'password789');
+
 
 
 -- Insert categories
@@ -34,8 +34,12 @@ INSERT INTO comments (post_id, user_id, content) VALUES
 (3, 2, 'I have been to 5 of these destinations, and they are amazing!');
 
 -- Insert likes (posts and comments)
-INSERT INTO likes (user_id, post_id, is_like) VALUES
-(2, 1, TRUE), -- User 2 likes Post 1
-(3, 1, TRUE), -- User 3 likes Post 1
-(1, 2, TRUE); -- User 1 likes Post 2
+INSERT INTO post_reactions (user_id, post_id, reaction) 
+VALUES (1, 101, 'like');
 
+INSERT INTO post_reactions (user_id, post_id, reaction) 
+VALUES (1, 101, 'dislike');
+
+UPDATE post_reactions 
+SET reaction = 'like' 
+WHERE user_id = 1 AND post_id = 101;

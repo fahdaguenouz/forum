@@ -38,20 +38,20 @@ CREATE TABLE IF NOT EXISTS comments (
   FOREIGN KEY (user_id) REFERENCES users (id)
 );
 
-CREATE TABLE IF NOT EXISTS likes (
+CREATE TABLE IF NOT EXISTS post_reactions (
   id INTEGER PRIMARY KEY AUTOINCREMENT, -- Changed from IDENTITY to AUTOINCREMENT
   user_id INTEGER NOT NULL,
-  post_id INTEGER, -- Nullable for post likes
-  is_like BOOLEAN NOT NULL,
+  post_id INTEGER NOT NULL,
+  reaction TEXT NOT NULL CHECK (reaction IN ('like', 'dislike')), -- Enforces valid reactions
   created_at TEXT DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (user_id) REFERENCES users (id),
-  FOREIGN KEY (post_id) REFERENCES posts (id)
-
+  FOREIGN KEY (post_id) REFERENCES posts (id),
+  UNIQUE (user_id, post_id) -- Ensures a user can only react once to a post
 );
 
 CREATE TABLE IF NOT EXISTS sessions (
   id INTEGER PRIMARY KEY AUTOINCREMENT, -- Changed from IDENTITY to AUTOINCREMENT
-  user_id INTEGER NOT NULL,
+  user_id INTEGER NOT NULL UNIQUE,
   session_token TEXT NOT NULL UNIQUE,
   expires_at TEXT NOT NULL,
   created_at TEXT DEFAULT CURRENT_TIMESTAMP,

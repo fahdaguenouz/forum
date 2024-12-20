@@ -64,7 +64,7 @@ func LginController(w http.ResponseWriter, r *http.Request) {
 	_, err = db.Exec("INSERT INTO sessions (user_id, session_token, expires_at) VALUES (?, ?, ?)", userID, sessionToken, expiresAt)
 	if err != nil {
 		fmt.Println("Session creation error:", err)
-		http.Error(w, `{"error": "Internal server error."}`, http.StatusInternalServerError)
+		http.Error(w, `{"error": "You are allready logged in another device."}`, http.StatusInternalServerError)
 		return
 	}
 
