@@ -10,21 +10,19 @@
     <div class="navbar">
         <div class="title"><a class="homeLink"href="/">FORUM</a></div>
 
-        <div class="buttons">
-            <button onclick="window.location.href='/authentification'">SignIn/SignUP</button>
-        </div>
     </div>
        
   <div class="container">
     <div class="forms-container">
       <div class="form-control signup-form">
-        <form action="#">
+        <form action="/register" method="post">
           <h2>Signup</h2>
-          <input type="text" id="username_register" placeholder="Username" required />
-          <input type="email" placeholder="Email" id="email_register" required />
-          <input type="password" placeholder="Password" id="password_register" required />
-          <input type="password" placeholder="Confirm password" id="confirm_password_register" required />
+          <input type="text" id="username_register" name="username" placeholder="Username" required />
+          <input type="email" id="email_register" name="email" placeholder="Email" required />
+          <input type="password" id="password_register" name="password" placeholder="Password" required />
+          <input type="password" id="confirm_password_register" name="confirm_password" placeholder="Confirm password" required />
           <button>Signup</button>
+          <div id="register-error" class="register-error-message" style="display: none;"></div>
         </form>
       </div>
       <div class="form-control signin-form">
@@ -33,6 +31,7 @@
           <input type="text"id="username_login" placeholder="Username" required />
           <input type="password"id="password_login" placeholder="Password" required />
           <button>Signin</button>
+          <div id="login-error" class="error-message" style="display: none;"></div>
         </form>
       </div>
     </div>

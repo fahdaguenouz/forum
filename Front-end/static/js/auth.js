@@ -9,108 +9,107 @@ signinBtn.addEventListener("click", () => {
   mainContainer.classList.toggle("change");
 });
 
-function isOnlyNumbers(str) {
-  for (let i = 0; i < str.length; i++) {
-    if (isNaN(str[i]) || str[i] === " ") {
-      return false; // Contains a non-numeric character
-    }
-  }
-  return true; // All characters are numeric
-}
-
-document.addEventListener("DOMContentLoaded", function () {
-  // Signup form validation
-  const signupForm = document.querySelector(".signup-form form");
-  const usernameRegister = document.getElementById("username_register");
-  const emailRegister = document.getElementById("email_register");
-  const passwordRegister = document.getElementById("password_register");
-  const confirmPasswordRegister = document.getElementById("confirm_password_register");
-
-  signupForm.addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    // Check username
-    if (usernameRegister.value.trim() === ""||isOnlyNumbers(usernameValue)) {
-      alert("Username is required for signup.");
-      return;
-    }
-
-    // Check email format
-    if (!/\S+@\S+\.\S+/.test(emailRegister.value)) {
-      alert("Please enter a valid email address.");
-      return;
-    }
-
-    // Check password length
-    if (passwordRegister.value.length < 8) {
-      alert("Password must be at least 8 characters long.");
-      return;
-    }
-
-    // Check if passwords match
-    if (passwordRegister.value !== confirmPasswordRegister.value) {
-      alert("Passwords do not match. Please confirm your password.");
-      return;
-    }
-
-    alert("Signup successful!");
-    signupForm.submit(); // Submit the form if everything is valid
-  });
-});
-//   // Signin form validation
-//   const signinForm = document.querySelector(".signin-form form");
-//   const usernameLogin = document.getElementById("username_login");
-//   const passwordLogin = document.getElementById("password_login");
-
-//   signinForm.addEventListener("submit", function (e) {
-//     e.preventDefault();
-
-//     // Check username
-//     if (usernameLogin.value.trim() === "") {
-//       alert("Username is required for signin.");
-//       return;
-//     }
-
-//     // Check password length
-//     if (passwordLogin.value.length < 8) {
-//       alert("Password must be at least 8 characters long.");
-//       return;
-//     }
-
-//     alert("Signin successful!");
-//     signinForm.submit(); // Submit the form if everything is valid
-//   });
-// });
-
-
+// Handle login form submission
 document.querySelector(".signin-form form").addEventListener("submit", async function (e) {
   e.preventDefault();
 
   const username = document.getElementById("username_login").value.trim();
   const password = document.getElementById("password_login").value.trim();
+  const errorContainer = document.getElementById("login-error");
 
+  // Clear previous errors
+  errorContainer.textContent = "";
+  errorContainer.style.display = "none";
+  console.log("Error container:", errorContainer);
+  // Input validation
   if (username === "" || password === "") {
-    alert("Both username and password are required.");
+    errorContainer.textContent = "Both username and password are required.";
+    errorContainer.style.display = "block";
     return;
   }
 
-  const response = await fetch("/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ username, password }),
-  });
-console.log(response);
+  try {
+    const response = await fetch("/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username, password }),
+    });
 
-  if (response.ok) {
-    window.location.href = "/home";
-  } else {
-    alert("Invalid username or password.");
+    if (response.ok) {
+      window.location.href = "/home";
+    } else {
+      const errorData = await response.json();
+      errorContainer.textContent = errorData.error || "Invalid username or password.";
+      errorContainer.style.display = "block";
+      console.log("Error container:", errorContainer);
+    }
+  } catch (error) {
+    console.error("Error during login:", error);
+    errorContainer.textContent = "An error occurred. Please try again later.";
+    errorContainer.style.display = "block";
   }
 });
 
+document.querySelector(".signup-form form").addEventListener("submit", async function (e) {
+  e.preventDefault();
 
+  // Get input values
+  const username = document.getElementById("username_register").value.trim();
+  const email = document.getElementById("email_register").value.trim();
+  const password = document.getElementById("password_register").value.trim();
+  const confirmPassword = document.getElementById("confirm_password_register").value.trim();
+  const errorContainer = document.getElementById("register-error");
 
+  // Clear previous errors
+  errorContainer.textContent = "";
+  errorContainer.style.display = "none";
 
+  // Input validation
+  if (!username || !email || !password || !confirmPassword) {
+    errorContainer.textContent = "All fields are required.";
+    errorContainer.style.display = "block";
+    return;
+  }
 
+  if (password !== confirmPassword) {
+    errorContainer.textContent = "Passwords do not match.";
+    errorContainer.style.display = "block";
+    return;
+  }
+
+  if (password.length < 6) {
+    errorContainer.textContent = "Password must be at least 6 characters long.";
+    errorContainer.style.display = "block";
+    return;
+  }
+
+  // Send data to the server
+  try {
+    const response = await fetch("/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username,
+        email,
+        password,
+        confirmPassword,
+      }),
+    });
+
+    if (response.ok) {
+      window.location.href = "/home";
+    } else {
+      const errorText = await response.text();
+      errorContainer.textContent = errorText || "Registration failed. Please try again.";
+      errorContainer.style.display = "block";
+    }
+  } catch (error) {
+    console.error("Error during registration:", error);
+    errorContainer.textContent = "An error occurred. Please try again later.";
+    errorContainer.style.display = "block";
+  }
+});

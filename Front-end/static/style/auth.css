@@ -11,6 +11,30 @@ body {
   font-size: 14px;
 }
 
+
+.error-message {
+  display: none;
+  color: red;
+  background-color: pink;
+  font-size: 0.9em;
+  margin-top: 5px;
+  border: 1px solid red;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.register-error-message {
+  display: none;
+  color: red;
+  background-color: pink;
+  font-size: 0.9em;
+  margin-top: 5px;
+  border: 1px solid red;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+
 .navbar {
   background-color: #ffc107; /* Bright yellow background */
   padding: 10px 20px;

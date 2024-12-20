@@ -17,6 +17,8 @@ func Router() {
 	http.HandleFunc("/authentification", auth.AuthController)
 	http.HandleFunc("/home", user.AuthHomeController)
 	http.HandleFunc("/login", auth.AuthController)
+	http.HandleFunc("/register", auth.AuthController)
+
 	http.HandleFunc("/logout", auth.LogoutController)
 
 
