@@ -38,8 +38,5 @@ INSERT INTO post_reactions (user_id, post_id, reaction)
 VALUES (1, 101, 'like');
 
 INSERT INTO post_reactions (user_id, post_id, reaction) 
-VALUES (1, 101, 'dislike');
+VALUES (1, 2, 'dislike');
 
-UPDATE post_reactions 
-SET reaction = 'like' 
-WHERE user_id = 1 AND post_id = 101;
