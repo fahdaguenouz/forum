@@ -56,28 +56,56 @@ document.addEventListener("DOMContentLoaded", function () {
     alert("Signup successful!");
     signupForm.submit(); // Submit the form if everything is valid
   });
+});
+//   // Signin form validation
+//   const signinForm = document.querySelector(".signin-form form");
+//   const usernameLogin = document.getElementById("username_login");
+//   const passwordLogin = document.getElementById("password_login");
 
-  // Signin form validation
-  const signinForm = document.querySelector(".signin-form form");
-  const usernameLogin = document.getElementById("username_login");
-  const passwordLogin = document.getElementById("password_login");
+//   signinForm.addEventListener("submit", function (e) {
+//     e.preventDefault();
 
-  signinForm.addEventListener("submit", function (e) {
-    e.preventDefault();
+//     // Check username
+//     if (usernameLogin.value.trim() === "") {
+//       alert("Username is required for signin.");
+//       return;
+//     }
 
-    // Check username
-    if (usernameLogin.value.trim() === "") {
-      alert("Username is required for signin.");
-      return;
-    }
+//     // Check password length
+//     if (passwordLogin.value.length < 8) {
+//       alert("Password must be at least 8 characters long.");
+//       return;
+//     }
 
-    // Check password length
-    if (passwordLogin.value.length < 8) {
-      alert("Password must be at least 8 characters long.");
-      return;
-    }
+//     alert("Signin successful!");
+//     signinForm.submit(); // Submit the form if everything is valid
+//   });
+// });
 
-    alert("Signin successful!");
-    signinForm.submit(); // Submit the form if everything is valid
+
+document.querySelector(".signin-form form").addEventListener("submit", async function (e) {
+  e.preventDefault();
+
+  const username = document.getElementById("username_login").value.trim();
+  const password = document.getElementById("password_login").value.trim();
+
+  if (username === "" || password === "") {
+    alert("Both username and password are required.");
+    return;
+  }
+
+  const response = await fetch("/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ username, password }),
   });
+console.log(response);
+
+  if (response.ok) {
+    window.location.href = "/home";
+  } else {
+    alert("Invalid username or password.");
+  }
 });

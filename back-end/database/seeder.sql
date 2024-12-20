@@ -39,8 +39,3 @@ INSERT INTO likes (user_id, post_id, is_like) VALUES
 (3, 1, TRUE), -- User 3 likes Post 1
 (1, 2, TRUE); -- User 1 likes Post 2
 
--- Insert sessions
-INSERT INTO sessions (user_id, session_token, expires_at) VALUES
-(1, 'token123', '2024-12-31 23:59:59'),
-(2, 'token456', '2024-12-31 23:59:59'),
-(3, 'token789', '2024-12-31 23:59:59');

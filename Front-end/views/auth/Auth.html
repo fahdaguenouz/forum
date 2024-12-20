@@ -4,7 +4,6 @@
         <title>Login</title>
         <link rel="stylesheet" type="text/css" href="/static/style/auth.css">
         <link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
-        <script src="https://kit.fontawesome.com/a81368914c.js"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1">
       </head>
 <body>
@@ -29,7 +28,7 @@
         </form>
       </div>
       <div class="form-control signin-form">
-        <form action="#">
+        <form action="/login" method="POST">
           <h2>Signin</h2>
           <input type="text"id="username_login" placeholder="Username" required />
           <input type="password"id="password_login" placeholder="Password" required />
