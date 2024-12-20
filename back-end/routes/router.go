@@ -17,6 +17,8 @@ func Router() {
 	http.HandleFunc("/authentification", auth.AuthController)
 	http.HandleFunc("/home", user.AuthHomeController)
 	http.HandleFunc("/login", auth.AuthController)
+	http.HandleFunc("/logout", auth.LogoutController)
+
 
 
 	//http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("Front-end/static"))))

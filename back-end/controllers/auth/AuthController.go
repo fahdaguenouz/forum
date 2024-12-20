@@ -21,6 +21,10 @@ type LoginRequest struct {
 func AuthController(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
+		if r.URL.Path == "/login" {
+			errorcont.ErrorController(w,r, http.StatusNotFound)
+			 return
+		 }
 	// Check if the user is already logged in
 	cookie, err := r.Cookie("session_token")
 	if err == nil && cookie.Value != "" {
