@@ -7,18 +7,18 @@ import (
 )
 
 func ErrorController(w http.ResponseWriter, r *http.Request, statusCode int) {
+    // Set the status code manually before rendering the error page
+    w.WriteHeader(statusCode)
+
+    // Parse the error template
     tmp, err := template.ParseFiles("Front-end/views/error/error.html")
     if err != nil {
-        // Set the status code manually for the error response
-        w.WriteHeader(http.StatusInternalServerError)
-        // Use http.Error to send the error message in the body
+        // If parsing fails, send an internal server error without calling WriteHeader again
         http.Error(w, err.Error(), http.StatusInternalServerError)
         return
     }
 
-    // Set the status code manually before rendering the error page
-    w.WriteHeader(statusCode)
-
+    // Define the error type to pass to the template
     errorType := models.Error{
         StatusCode:   statusCode,
         ErrorMessage: http.StatusText(statusCode),
@@ -26,7 +26,7 @@ func ErrorController(w http.ResponseWriter, r *http.Request, statusCode int) {
 
     // Render the template with the error message
     if err := tmp.Execute(w, errorType); err != nil {
-        // If rendering fails, send an internal server error
+        // If rendering fails, send an internal server error without calling WriteHeader again
         http.Error(w, err.Error(), http.StatusInternalServerError)
         return
     }
