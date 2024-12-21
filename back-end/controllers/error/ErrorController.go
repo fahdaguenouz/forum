@@ -29,6 +29,4 @@ func ErrorController(w http.ResponseWriter, r *http.Request, statusCode int) {
         http.Error(w, err.Error(), http.StatusInternalServerError)
         return
     }
-}       return
-    }
-}
+}    
