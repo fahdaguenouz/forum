@@ -30,8 +30,8 @@ RUN apt-get update && apt-get install -y \
 COPY --from=builder /etc/ssl/certs /etc/ssl/certs
 COPY --from=builder /app/out /app/
 
-# Copy the Front-end/views directory
-COPY --from=builder /app/Front-end/views /app/Front-end/views
+# Copy the entire Front-end directory, including views, static, and others
+COPY --from=builder /app/Front-end /app/Front-end
 
 # Copy the migration script
 COPY migrate.sh /app/migrate.sh
