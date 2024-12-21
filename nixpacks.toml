@@ -1,2 +1,5 @@
-[phases]
-start = { run = "./start.sh" }
+[build]
+packages = ["gcc", "sqlite3", "libsqlite3-dev"]
+
+[start]
+cmd = "./out"
