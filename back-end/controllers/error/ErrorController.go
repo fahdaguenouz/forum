@@ -14,7 +14,7 @@ func ErrorController(w http.ResponseWriter, r *http.Request, statusCode int) {
     tmp, err := template.ParseFiles("Front-end/views/error/error.html")
     if err != nil {
         // If parsing fails, send an internal server error without calling WriteHeader again
-        http.Error(w, err.Error(), http.StatusInternalServerError)
+        http.Error(w, err.Error()+"fahd", http.StatusInternalServerError)
         return
     }
 
