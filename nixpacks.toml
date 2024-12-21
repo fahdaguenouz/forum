@@ -1,2 +1,2 @@
 [phases]
-start = { run = "go run . -m && go run . --seed && go run ." }
+start = { run = "./start.sh" }
