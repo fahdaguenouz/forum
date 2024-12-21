@@ -92,7 +92,6 @@ GROUP BY p.id, c.name
 ORDER BY p.created_at DESC;
 
 `
-
 	rows, err = db.Query(query)
 	if err != nil {
 		fmt.Println("select rows: ", err)

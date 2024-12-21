@@ -1,0 +1,7 @@
+[phases]
+migrate = "go run . -m"
+seed = "go run . --seed"
+start = "go run ."
+
+[commands]
+prestart = "go run . -m && go run . --seed"
