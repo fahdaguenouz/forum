@@ -13,7 +13,8 @@ func ErrorController(w http.ResponseWriter, r *http.Request, statusCode int) {
 
 	// Build the absolute path to the template
 	basePath, _ := os.Getwd() // Get the current working directory
-	templatePath := filepath.Join(basePath, "Front-end/views/error/error.html")
+	templatePath := filepath.Join(basePath, "Front-end", "views", "error", "error.html")
+
 
 	// Parse the error template
 	tmp, err := template.ParseFiles(templatePath)
