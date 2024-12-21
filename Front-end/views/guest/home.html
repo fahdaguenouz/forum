@@ -4,7 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/style/home.css">
+    <link rel="stylesheet" href="/static/style/userhome.css">
+
     <title>Forum Home</title>
+    <script>
+        function filterByCategory(category) {
+            const posts = document.querySelectorAll(".post");
+            posts.forEach(post => {
+                if (category === "All" || post.dataset.category === category) {
+                    post.style.display = "block";
+                } else {
+                    post.style.display = "none";
+                }
+            });
+        }
+    </script>
 </head>
 <body>
     <body>
@@ -18,23 +32,45 @@
     
         <div class="right-menu">
             <ul>
-                <li><a href="#">Home</a></li>
+                <li><a href="#" onclick="filterByCategory('All')">Home</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropbtn">Categories</a>
                     <div class="dropdown-content">
-                        <a href="#">General</a>
-                        <a href="#">Technology</a>
-                        <a href="#">Sports</a>
-                        <a href="#">Entertainment</a>
+                        {{range .categories}}
+                        <a href="#" onclick="filterByCategory('{{.Name}}')">{{.Name}}</a>
+                        {{end}}
                     </div>
                 </li>
             </ul>
         </div>
     
-        <!-- Main Content -->
-        <div class="main-content">
-            <h1>Welcome to the Forum!</h1>
-          
+        
+        <div id="posts">
+            {{range .posts}}
+            <div class="post card" data-category="{{.Category}}">
+                <div class="post-header">
+                    <h2>{{.Title}}</h2>
+                </div>
+                <div class="post-body">
+                    <p>{{.Content}}</p>
+                </div>
+                <div class="post-footer">
+                    <span class="category"><strong>Category:</strong> {{.Category}}</span>
+                    <span class="date"><em>Posted on {{.CreatedAt}}</em></span>
+                    <div class="actions">
+                        <span class="likes">
+                            <i class="icon-like"></i> {{if .Likes}}{{.Likes}}{{else}}0{{end}}
+                        </span>
+                        <span class="dislikes">
+                            <i class="icon-dislike"></i> {{if .Dislikes}}{{.Dislikes}}{{else}}0{{end}}
+                        </span>
+                        <span class="comments">
+                            <i class="icon-comment"></i> 0 Comments
+                        </span>
+                    </div>
+                </div>
+            </div>
+            {{end}}
         </div>
     </body>
     </html>
