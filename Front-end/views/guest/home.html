@@ -44,36 +44,49 @@
             </ul>
         </div>
     
-        
-        <div id="posts">
-            {{range .posts}}
-            <div class="post card" data-category="{{.Category}}">
-                <div class="post-header">
-                    <h2>{{.Title}}</h2>
-                </div>
-                <div class="post-body">
-                    <p>{{.Content}}</p>
-                </div>
-                <div class="post-footer">
-                    <span class="category"><strong>Category:</strong> {{.Category}}</span>
-                    <span class="date"><em>Posted on {{.CreatedAt}}</em></span>
-                    <div class="actions">
-                        <span class="likes">
-                            <i class="icon-like"></i> {{if .Likes}}{{.Likes}}{{else}}0{{end}}
-                        </span>
-                        <span class="dislikes">
-                            <i class="icon-dislike"></i> {{if .Dislikes}}{{.Dislikes}}{{else}}0{{end}}
-                        </span>
-                        <span class="comments">
-                          
-                            <i class="icon-comment"></i> 0 Comments
-                        </span>
-                    </div>
+        {{range .Posts}}
+        <div class="post card" data-category="{{.Category}}">
+            <div class="post-header">
+                <h2>{{.Title}}</h2>
+            </div>
+            <div class="post-body">
+                <p>{{.Content}}</p>
+            </div>
+            <div class="post-footer">
+                <span class="category"><strong>Category:</strong> {{.Category}}</span>
+                <span class="date"><em>Posted on {{.CreatedAt}}</em></span>
+                <div class="actions">
+                    <span class="likes">
+                        <i class="icon-like"></i> {{if .Likes}}{{.Likes}}{{else}}0{{end}}
+                    </span>
+                    <span class="dislikes">
+                        <i class="icon-dislike"></i> {{if .Dislikes}}{{.Dislikes}}{{else}}0{{end}}
+                    </span>
+                    <span class="comments-toggle" style="cursor:pointer;" onclick="toggleComments('{{.ID}}')">
+                        <i class="icon-comment"></i> Show Comments
+                    </span>
                 </div>
             </div>
-            {{end}}
+        
+            <div id="comments-section-{{.ID}}" class="comments-section" style="display:none;">
+                <div id="comments-{{.ID}}">
+                    {{range .Comments}}
+                        <div class="comment">
+                            <p>{{.Content}}</p>
+                            <em>Posted on {{.CreatedAt}}</em>
+                        </div>
+                    {{else}}
+                        <p>No comments yet.</p>
+                    {{end}}
+                </div>
+            </div>
+        </div>
+        {{else}}
+        <p class="no-posts-message">No posts available</p>
+        {{end}}
         </div>
     </body>
+    <script src="/static/js/guesthome.js"></script>
     </html>
 </body>
 </html>

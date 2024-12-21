@@ -9,16 +9,23 @@ import (
 	"time"
 )
 
-type Post struct {
-	ID        int    `json:"id"`
-	Title     string `json:"title"`
-	Content   string `json:"content"`
-	Category  string `json:"category"`
-	Likes     int    `json:"likes"`
-	Dislikes  int    `json:"dislikes"`
-	CreatedAt string `json:"created_at"` // Change to string
+type Comment struct {
+	ID      int    `json:"id"`
+	PostID  int    `json:"post_id"`
+	Content string `json:"content"`
+	CreatedAt string `json:"created_at"`
 }
 
+type Post struct {
+	ID        int       `json:"id"`
+	Title     string    `json:"title"`
+	Content   string    `json:"content"`
+	Category  string    `json:"category"`
+	Likes     int       `json:"likes"`
+	Dislikes  int       `json:"dislikes"`
+	CreatedAt string    `json:"created_at"` // Change to string
+	Comments  []Comment `json:"comments"`   // Added Comments field
+}
 type Category struct {
 	ID   int    `json:"id"`
 	Name string `json:"name"`
@@ -90,27 +97,52 @@ LEFT JOIN categories c ON pc.category_id = c.id
 LEFT JOIN post_reactions pr ON p.id = pr.post_id
 GROUP BY p.id, c.name
 ORDER BY p.created_at DESC;
-
 `
-	rows, err = db.Query(query)
+	rowss, err := db.Query(query)
 	if err != nil {
 		fmt.Println("select rows: ", err)
-
 		errorcont.ErrorController(w, r, http.StatusInternalServerError)
 		return
 	}
-	defer rows.Close()
+	defer rowss.Close()
 
-	for rows.Next() {
+	for rowss.Next() {
 		var post Post
-		if err := rows.Scan(&post.ID, &post.Title, &post.Content, &post.Category, &post.Likes, &post.Dislikes, &post.CreatedAt); err != nil {
-			fmt.Println("row scan  posts:", err)
+		if err := rowss.Scan(&post.ID, &post.Title, &post.Content, &post.Category, &post.Likes, &post.Dislikes, &post.CreatedAt); err != nil {
+			fmt.Println("row scan posts:", err)
 			errorcont.ErrorController(w, r, http.StatusInternalServerError)
 			return
 		}
+
+		// Fetch comments for the post
+		comments := []Comment{}
+		commentQuery := `
+			SELECT id, content, created_at 
+			FROM comments 
+			WHERE post_id = ?
+			ORDER BY created_at ASC;
+		`
+		commentRows, err := db.Query(commentQuery, post.ID)
+		if err != nil {
+			fmt.Println("select comments:", err)
+			errorcont.ErrorController(w, r, http.StatusInternalServerError)
+			return
+		}
+		defer commentRows.Close()
+
+		for commentRows.Next() {
+			var comment Comment
+			if err := commentRows.Scan(&comment.ID, &comment.Content, &comment.CreatedAt); err != nil {
+				fmt.Println("row scan comments:", err)
+				errorcont.ErrorController(w, r, http.StatusInternalServerError)
+				return
+			}
+			comments = append(comments, comment)
+		}
+
+		post.Comments = comments
 		posts = append(posts, post)
 	}
-
 	// Pass posts and categories to the template
 	data := map[string]interface{}{
 		"posts":      posts,

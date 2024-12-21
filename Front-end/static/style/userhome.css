@@ -78,3 +78,15 @@
 .icon-comment::before {
     content: "💬";
 }
+.no-posts-message {
+    text-align: center;
+    font-size: 3rem;  /* Makes the text large */
+    font-weight: bold; /* Makes the text bold */
+    color: #555; /* Optional: Set text color */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centers the text */
+    width: 100%;  /* Optional: Ensures the text spans the full width */
+    margin: 0;
+}
