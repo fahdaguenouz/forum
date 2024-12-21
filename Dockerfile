@@ -1,44 +1,50 @@
 # Stage 1: Build the Go application
-FROM golang:1.22 as builder
-
-# Install necessary tools
-RUN apt-get update && apt-get install -y gcc sqlite3 libsqlite3-dev
-
-# Set CGO_ENABLED=1 for SQLite support
-ENV CGO_ENABLED=1
+FROM golang:1.20 as builder
 
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy go.mod and go.sum, and download dependencies
-COPY go.mod go.sum ./
-RUN go mod download
+# Install necessary dependencies for SSL and certificates
+RUN apt-get update && apt-get install -y \
+    ca-certificates \
+    && update-ca-certificates
 
-# Copy the entire source code
+# Copy Go source code into the container
 COPY . .
 
-# Build the Go application
-RUN go build -o out
+# Install Go dependencies (if any)
+RUN go mod tidy
 
-# Stage 2: Create a lightweight runtime image
+# Build the Go application
+RUN CGO_ENABLED=0 go build -o out .
+
+# Stage 2: Create the minimal runtime environment
 FROM debian:bullseye-slim
 
-# Install CA certificates to enable HTTPS
-RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates && rm -rf /var/lib/apt/lists/*
+# Install necessary libraries and dependencies for GLIBC
+RUN apt-get update && apt-get install -y \
+    libc6 \
+    ca-certificates \
+    && update-ca-certificates
 
-# Copy the SSL certificates, the built application, and the migration script
+# Copy SSL certificates and the built Go binary from the builder stage
 COPY --from=builder /etc/ssl/certs /etc/ssl/certs
 COPY --from=builder /app/out /app/
+
+# Copy the migration script into the container
 COPY migrate.sh /app/migrate.sh
 
-# Set the working directory inside the container
+# Set the working directory
 WORKDIR /app
 
-# Make the migration script executable
+# Make the migrate script executable
 RUN chmod +x /app/migrate.sh
 
-# Set the entrypoint to run the migration script
-ENTRYPOINT ["/app/migrate.sh"]
+# Set the environment variable for the Go application
+ENV GO_ENV=production
 
-# Default command (this can be overridden at runtime)
-CMD ["-h"]
+# Expose the port the app will run on (use your app's port if different)
+EXPOSE 8080
+
+# Set the entrypoint to the migration and start script
+CMD ["/app/migrate.sh"]

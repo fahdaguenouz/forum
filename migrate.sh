@@ -1,13 +1,21 @@
 #!/bin/bash
 
-# Run database migrations
+# Function to check the migration status
+run_migration() {
+  # Run the migration based on the Go application's output
+  echo "Running migrations..."
+  ./out
+}
+
+# Check if database migration is required
 echo "Running database migrations..."
-# Run the migration command using the built executable
-./out migrate
+
+# Run the Go application to handle migrations
+run_migration
 
 # Check if migration was successful
 if [ $? -eq 0 ]; then
-  echo "Database migrations completed successfully."
+  echo "Database migrations completed successfully!"
 else
   echo "Database migrations failed!"
   exit 1
