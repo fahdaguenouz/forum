@@ -26,6 +26,7 @@ func LogoutController(w http.ResponseWriter, r *http.Request) {
 	db, err := sql.Open("sqlite3", "./back-end/database/database.db")
 	if err != nil {
 		http.Error(w, "Database error", http.StatusInternalServerError)
+		errorcont.ErrorController(w,r,http.StatusInternalServerError)
 		return
 	}
 	defer db.Close()

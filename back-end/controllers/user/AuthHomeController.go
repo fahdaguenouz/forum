@@ -3,6 +3,8 @@ package controllers
 import (
 	controllers "Forum/back-end/controllers/error"
 	utils "Forum/back-end/controllers/utils"
+	 errorcont "Forum/back-end/controllers/error"
+
 	"database/sql"
 	"fmt"
 	"net/http"
@@ -22,6 +24,8 @@ func AuthHomeController(w http.ResponseWriter, r *http.Request) {
 	db, err := sql.Open("sqlite3", "./back-end/database/database.db")
 	if err != nil {
 		http.Error(w, "Database error", http.StatusInternalServerError)
+		errorcont.ErrorController(w,r,http.StatusInternalServerError)
+
 		return
 	}
 	defer db.Close()

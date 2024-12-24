@@ -2,6 +2,8 @@ package auth
 
 import (
 	utils "Forum/back-end/controllers/utils"
+	errorcont "Forum/back-end/controllers/error"
+
 	"database/sql"
 	"encoding/json"
 	"fmt"
@@ -12,6 +14,7 @@ import (
 func LginController(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
 		http.Error(w, `{"error": "Method not allowed."}`, http.StatusMethodNotAllowed)
+		errorcont.ErrorController(w,r,http.StatusMethodNotAllowed)
 		return
 	}
 
@@ -40,10 +43,12 @@ func LginController(w http.ResponseWriter, r *http.Request) {
 		if err == sql.ErrNoRows {
 			// Username does not exist
 			http.Error(w, `{"error": "Username does not exist."}`, http.StatusUnauthorized)
+			return
 		} else {
 			// Other database error
 			fmt.Println("Query error:", err)
 			http.Error(w, `{"error": "Internal server error."}`, http.StatusInternalServerError)
+			
 		}
 		return
 	}

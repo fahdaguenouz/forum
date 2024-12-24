@@ -5,12 +5,15 @@ import (
 	"encoding/json"
 	"net/http"
 	"time"
+	errorcont "Forum/back-end/controllers/error"
 )
 
 func RegisterController(w http.ResponseWriter, r *http.Request) {
 	// Allow only POST requests
 	if r.Method != "POST" {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		errorcont.ErrorController(w,r,http.StatusMethodNotAllowed)
+
 		return
 	}
 
@@ -72,6 +75,7 @@ func RegisterController(w http.ResponseWriter, r *http.Request) {
 	_, err = db.Exec("INSERT INTO users (username, email, password) VALUES (?, ?, ?)", req.Username, req.Email, hashedPassword)
 	if err != nil {
 		http.Error(w, "Error creating user", http.StatusInternalServerError)
+		errorcont.ErrorController(w,r,http.StatusInternalServerError)
 		return
 	}
 
@@ -83,6 +87,8 @@ func RegisterController(w http.ResponseWriter, r *http.Request) {
 	_, err = db.Exec("INSERT INTO sessions (session_token, user_id, expires_at) VALUES (?, (SELECT id FROM users WHERE username = ?), ?)", sessionToken, req.Username, expiresAt)
 	if err != nil {
 		http.Error(w, "Error creating session", http.StatusInternalServerError)
+		errorcont.ErrorController(w,r,http.StatusInternalServerError)
+
 		return
 	}
 

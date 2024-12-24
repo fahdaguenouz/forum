@@ -67,6 +67,7 @@ func AuthController(w http.ResponseWriter, r *http.Request) {
 
 	default:
 		errorcont.ErrorController(w, r, http.StatusMethodNotAllowed)
+		return 
 	}
 
 }
