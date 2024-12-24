@@ -145,8 +145,6 @@ body {
     margin-top: 200px; /* Space above the message */
 }
 
-
-
 #posts {
     display: flex;
     flex-direction: column; /* Stack items vertically */

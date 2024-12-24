@@ -175,6 +175,7 @@ func AuthHomeController(w http.ResponseWriter, r *http.Request) {
         post.Comments = comments
         posts = append(posts, post)
     }
+	
 
     // Define data variable to pass to template
 	data := struct {

@@ -16,10 +16,7 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-type LoginRequest struct {
-	Username string `json:"username"`
-	Password string `json:"password"`
-}
+
 
 func AuthController(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
