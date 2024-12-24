@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajouter Post</title>
+    <link rel="stylesheet" href="/static/style/home.css"> <!-- Include your CSS file -->
+    <link rel="stylesheet" href="/static/style/ajouterForm.css"> <!-- Include additional styles if necessary -->
+</head>
+<body>
+    <div class="navbar">
+        <div class="title"><a class="homeLink" href="/">FORUM</a></div>
+        <div class="buttons">
+            <button onclick="window.location.href='/profile'">Profile</button>
+            <button id="logoutButton">Logout</button>
+        </div>
+    </div>
+    <div class="right-menu">
+        <ul>
+            <li><a href="/">Home</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <h1>Add a New Post</h1>
+        <form action="/add-post" method="POST">
+            <div>
+                <label for="postTitle">Post Title:</label><br>
+                <input type="text" id="postTitle" name="title" required>
+            </div>
+            <div>
+                <label for="postContent">Post Content:</label><br>
+                <textarea id="postContent" name="content" rows="4" required></textarea>
+            </div>
+            <div class="checkbox-group">
+                <label>Select Categories:</label><br>
+                {{range .Categories}} <!-- Assuming you pass categories to the template -->
+                    <input type="checkbox" id="category-{{.ID}}" name="categories" value="{{.ID}}">
+                    <label for="category-{{.ID}}">{{.Name}}</label><br> <!-- Display category name -->
+                {{end}}
+            </div>
+            <br>
+            <button type="submit">Submit Post</button> <!-- Submit button -->
+        </form>
+    </div>
+
+    <script src="/static/js/logout.js"></script> <!-- Include your logout script -->
+</body>
+</html>

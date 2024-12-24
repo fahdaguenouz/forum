@@ -1,0 +1,57 @@
+.main-content {
+    max-width: 800px; /* Centering content */
+    margin: 80px auto; /* Center content horizontally and add top margin to avoid navbar */
+    padding: 20px; /* Padding around the content */
+    background-color: #fff; /* White background for the form area */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+h1 {
+    margin-bottom: 20px; /* Space below the heading */
+    color: #2c3e50; /* Dark color for the heading */
+}
+
+label {
+    font-weight: bold; /* Bold labels for better visibility */
+    margin-top: 10px; /* Space above labels */
+}
+
+input[type="text"], textarea {
+    width: 100%; /* Full width inputs */
+    padding: 10px; /* Padding inside inputs */
+    margin-top: 5px; /* Space above inputs */
+    border-radius: 5px; /* Rounded corners */
+    border: 1px solid #ccc; /* Light border */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Inner shadow for depth */
+}
+
+textarea {
+    resize: vertical; /* Allow vertical resizing only */
+}
+
+button {
+    background-color: #007bff; /* Bootstrap primary color */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px; /* Rounded corners for buttons */
+    margin-top: 15px; /* Space above button */
+}
+
+button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+}
+
+.checkbox-group {
+    margin-top: 10px; /* Space above checkbox group */
+}
+
+.comment-card {
+    background-color: #f1f1f1; /* Light gray background for comments */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px; /* Padding inside the comment */
+    margin-top: 10px; /* Space between comments */
+}
