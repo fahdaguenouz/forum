@@ -17,6 +17,11 @@
                     post.style.display = "none";
                 }
             });
+
+            // Update the URL without reloading the page
+            const url = new URL(window.location);
+            url.searchParams.set('category', category); // Set or update the 'category' parameter
+            window.history.pushState({ category: category }, '', url); // Update the URL
         }
 
         function toggleComments(postID) {
@@ -81,6 +86,7 @@
                 </div>
                 <div class="post-footer">
                     <span class="category"><strong>Category:</strong> {{.Category}}</span>
+                    <span class="author"><strong>Posted by:</strong> {{.Username}}</span> <!-- Display username -->
                     <span class="date"><em>Posted on {{.CreatedAt}}</em></span>
                     <div class="actions">
                         <span class="likes" onclick="handleReaction('{{.ID}}', 'like')" style="cursor:pointer;">
@@ -93,19 +99,18 @@
                             <i class="icon-comment"></i> Show Comments
                         </span>
                     </div>
-
+                
                     <!-- Login prompt message -->
                     <span id="login-prompt-{{.ID}}" style="display:none; color:red; font-size:12px;">
                         You need to log in to like or dislike.
                     </span>
                 </div>
-
                 <!-- Redesigned Comments Section -->
                 <div id="comments-section-{{.ID}}" class="comments-section" style="display:none;">
                     {{if .Comments}}
                         {{range .Comments}}
                             <div class="comment-card">
-                                <p><strong>User </strong>: {{.Content}}</p>
+                                <p><strong>{{.Username}}</strong>: {{.Content}}</p> <!-- Display username -->
                                 <em>Posted on {{.CreatedAt}}</em>
                             </div>
                         {{end}}

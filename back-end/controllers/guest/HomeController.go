@@ -12,8 +12,10 @@ import (
 type Comment struct {
 	ID        int    `json:"id"`
 	PostID    int    `json:"post_id"`
+	UserID    int    `json:"user_id"` // Add UserID to associate with the user
 	Content   string `json:"content"`
 	CreatedAt string `json:"created_at"`
+	Username  string `json:"username"` // Add Username for display
 }
 
 type Post struct {
@@ -25,13 +27,13 @@ type Post struct {
 	Dislikes  int       `json:"dislikes"`
 	CreatedAt string    `json:"created_at"`
 	Comments  []Comment `json:"comments"`
+	Username  string    `json:"username"` // Add Username for display
 }
 
 type Category struct {
 	ID   int    `json:"id"`
 	Name string `json:"name"`
 }
-
 func HomeController(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "GET" {
 		errorcont.ErrorController(w, r, http.StatusMethodNotAllowed)
@@ -85,20 +87,23 @@ func HomeController(w http.ResponseWriter, r *http.Request) {
 	posts := []Post{}
 	query := `
 	SELECT 
-	p.id, 
-	p.title, 
-	p.content, 
-	c.name AS category, 
-	COALESCE(SUM(CASE WHEN pr.reaction = 'like' THEN 1 ELSE 0 END), 0) AS likes,
-    COALESCE(SUM(CASE WHEN pr.reaction = 'dislike' THEN 1 ELSE 0 END), 0) AS dislikes,
-    p.created_at
+		p.id, 
+		p.title, 
+		p.content, 
+		c.name AS category, 
+		u.username AS username,
+		COALESCE(SUM(CASE WHEN pr.reaction = 'like' THEN 1 ELSE 0 END), 0) AS likes,
+        COALESCE(SUM(CASE WHEN pr.reaction = 'dislike' THEN 1 ELSE 0 END), 0) AS dislikes,
+        p.created_at
 	FROM posts p
 	LEFT JOIN post_categories pc ON p.id = pc.post_id
 	LEFT JOIN categories c ON pc.category_id = c.id
 	LEFT JOIN post_reactions pr ON p.id = pr.post_id
+	LEFT JOIN users u ON p.user_id = u.id
 	GROUP BY p.id
 	ORDER BY p.created_at DESC;
 	`
+	
 	rowss, err := db.Query(query)
 	if err != nil {
         fmt.Println("select rows: ", err)
@@ -106,22 +111,28 @@ func HomeController(w http.ResponseWriter, r *http.Request) {
         return
     }
 	defer rowss.Close()
-
+	
 	for rowss.Next() {
         var post Post
-        if err := rowss.Scan(&post.ID, &post.Title, &post.Content, &post.Category, &post.Likes, &post.Dislikes, &post.CreatedAt); err != nil {
+        if err := rowss.Scan(&post.ID, &post.Title, &post.Content, &post.Category, &post.Username, &post.Likes, &post.Dislikes, &post.CreatedAt); err != nil {
             fmt.Println("row scan posts:", err)
             errorcont.ErrorController(w, r, http.StatusInternalServerError)
             return
         }
-
+	
         comments := []Comment{}
         commentQuery := `
-			SELECT id, content, created_at 
-			FROM comments 
-			WHERE post_id = ?
-			ORDER BY created_at ASC;
+        SELECT 
+            id,
+            content,
+            created_at,
+            user_id,
+            (SELECT username FROM users WHERE id = user_id) AS username -- Fetch username for each comment
+        FROM comments 
+        WHERE post_id = ?
+        ORDER BY created_at ASC;
         `
+		
         commentRows, err := db.Query(commentQuery, post.ID)
         if err != nil {
             fmt.Println("select comments:", err)
@@ -129,21 +140,29 @@ func HomeController(w http.ResponseWriter, r *http.Request) {
             return
         }
         defer commentRows.Close()
-
+	
         for commentRows.Next() {
             var comment Comment
-            if err := commentRows.Scan(&comment.ID, &comment.Content, &comment.CreatedAt); err != nil {
+            if err := commentRows.Scan(&comment.ID, &comment.Content, &comment.CreatedAt, &comment.UserID,&comment.Username); err != nil { // Include UserID in scan
                 fmt.Println("row scan comments:", err)
                 errorcont.ErrorController(w, r, http.StatusInternalServerError)
                 return
             }
+            
+            // Fetch username for each comment separately
+            var username string
+            if err := db.QueryRow("SELECT username FROM users WHERE id = ?", comment.UserID).Scan(&username); err == nil {
+                comment.Username = username // Set the username for each comment
+            }
+			
             comments = append(comments, comment)
         }
-
+	
         post.Comments = comments
         posts = append(posts, post)
     }
 
+    // Define data variable to pass to template
 	data := struct {
         Posts     []Post
         Categories []Category
@@ -151,5 +170,6 @@ func HomeController(w http.ResponseWriter, r *http.Request) {
         Posts:     posts,
         Categories: categories,
     }
-	utils.TemplateController(w, r, "/guest/home", data)
+
+	utils.TemplateController(w, r, "/guest/home", data) // Ensure data is passed correctly here.
 }
