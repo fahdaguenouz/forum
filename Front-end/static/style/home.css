@@ -125,6 +125,7 @@ body {
     padding: 10px; /* Padding inside the comment */
     margin: 10px 0; /* Space between comments */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    
 }
 
 .comment-card p {
@@ -215,7 +216,7 @@ body {
 }
 
 /* Icons */
-.icon-like::before {
+/* .icon-like::before {
     content: "👍";
 }
 
@@ -225,10 +226,16 @@ body {
 
 .icon-comment::before {
     content: "💬";
-}
+} */
 .no-posts-message {
     text-align: center;
     font-size: 3rem; /* Makes the text large */
     font-weight: bold; /* Makes the text bold */
     color: #555; /* Optional: Set text color */
+}
+
+.comment-section{
+    display: block;
+    height: 100px;
+    overflow-y: auto;
 }

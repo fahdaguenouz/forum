@@ -55,7 +55,14 @@ func PostController(w http.ResponseWriter, r *http.Request) {
                 fmt.Println("add post")
                 post.AjouterPost(w,r);
                 return
-            }
+            }else if r.URL.Path == "/reaction"{
+				fmt.Println("reaction")
+				post.PostReactionController(w, r);
+			}else if r.URL.Path == "/add-comment"{
+				fmt.Println("add comment")
+                post.CommentController(w, r);
+                return
+			}
 	}else{
 		errorcont.ErrorController(w, r, http.StatusMethodNotAllowed)
         return

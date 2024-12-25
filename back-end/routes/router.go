@@ -3,6 +3,7 @@ package routes
 import (
 	guest "Forum/back-end/controllers/guest"
 	user "Forum/back-end/controllers/user"
+	
 	utils "Forum/back-end/controllers/utils"
 
 
@@ -19,6 +20,10 @@ func Router() {
 	http.HandleFunc("/login", auth.AuthController)
 	http.HandleFunc("/ajouter-post", user.PostController)
 	http.HandleFunc("/add-post", user.PostController)
+	http.HandleFunc("/reaction", user.PostController)
+	http.HandleFunc("/add-comment", user.PostController)
+
+
 
 
 

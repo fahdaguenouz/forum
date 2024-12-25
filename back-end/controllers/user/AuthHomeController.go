@@ -117,7 +117,6 @@ func AuthHomeController(w http.ResponseWriter, r *http.Request) {
 	GROUP BY p.id
     ORDER BY p.created_at DESC;
     `
-	
 	rowss, err := db.Query(query) // Fetch all posts regardless of user
 	if err != nil {
         fmt.Println("select rows: ", err)

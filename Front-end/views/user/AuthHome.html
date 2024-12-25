@@ -31,22 +31,6 @@
                 commentSection.style.display = "none";   // Hide comments
             }
         }
-
-        function handleReaction(postID) {
-            const isLoggedIn = true; // Replace with actual login check
-
-            if (!isLoggedIn) {
-                showLoginPrompt(postID);
-            }
-        }
-
-        function showLoginPrompt(postID) {
-            const promptMessage = document.getElementById('login-prompt-' + postID);
-            promptMessage.style.display = 'block';
-            setTimeout(() => {
-                promptMessage.style.display = 'none';
-            }, 3000); // Hide after 3 seconds
-        }
     </script>
 </head>
 
@@ -90,26 +74,26 @@
                     <p>{{.Content}}</p>
                 </div>
                 <div class="post-footer">
-                    <span class="category"><strong>Category:</strong> {{.Category}}</span>
+                  
                     <span class="author"><strong>Posted by:</strong> {{.Username}}</span> <!-- Display username -->
                     <span class="date"><em>Posted on {{.CreatedAt}}</em></span>
                     <div class="actions">
-                        <span class="likes" onclick="handleReaction('{{.ID}}', 'like')" style="cursor:pointer;">
-                            <i class="icon-like"></i> {{if .Likes}}{{.Likes}}{{else}}0{{end}}
+                        <span class="likes" data-post-id="{{.ID}}" onclick="handleReaction('{{.ID}}', 'like')" style="cursor:pointer;">
+                            <i class="icon-like">👍</i> {{if .Likes}}{{.Likes}}{{else}}0{{end}}
                         </span>
-                        <span class="dislikes" onclick="handleReaction('{{.ID}}', 'dislike')" style="cursor:pointer;">
-                            <i class="icon-dislike"></i> {{if .Dislikes}}{{.Dislikes}}{{else}}0{{end}}
+                        <span class="dislikes" data-post-id="{{.ID}}" onclick="handleReaction('{{.ID}}', 'dislike')" style="cursor:pointer;">
+                            <i class="icon-dislike">👎</i> {{if .Dislikes}}{{.Dislikes}}{{else}}0{{end}}
                         </span>
                         <span class="comments-toggle" style="cursor:pointer;" onclick="toggleComments('{{.ID}}')">
-                            <i class="icon-comment"></i> Show Comments
+                            <i class="icon-comment">💬</i> Show Comments
                         </span>
                     </div>
-                
                     <!-- Login prompt message -->
                     <span id="login-prompt-{{.ID}}" style="display:none; color:red; font-size:12px;">
                         You need to log in to like or dislike.
                     </span>
                 </div>
+                
                 <!-- Redesigned Comments Section -->
                 <div id="comments-section-{{.ID}}" class="comments-section" style="display:none;">
                     {{if .Comments}}
@@ -122,6 +106,12 @@
                     {{else}}
                         <p>No comments yet.</p>
                     {{end}}
+                
+                    <!-- Input for new comment -->
+                    <div id="new-comment-{{.ID}}" style="display:none; margin-top: 10px;">
+                        <input type="text" id="comment-input-{{.ID}}" placeholder="Add a comment..." />
+                        <button onclick="addComment('{{.ID}}')">Submit</button>
+                    </div>
                 </div>
             </div>
         {{end}}
@@ -129,6 +119,7 @@
             <p class="no-posts-message">No posts available</p>
         {{end}}
     </div> <!-- End of posts container -->
+    <script src="/static/js/userHome.js"></script>
 
     <script src="/static/js/logout.js"></script>
 </body>
