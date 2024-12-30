@@ -2,6 +2,7 @@ package post
 
 import (
 	"database/sql"
+	"html"
 	"net/http"
 	"time"
 )
@@ -50,8 +51,8 @@ func AjouterPost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	title := r.FormValue("title")
-	content := r.FormValue("content")
+	title := html.EscapeString( r.FormValue("title"))
+	content := html.EscapeString(r.FormValue("content"))
 
 	// Get selected categories
 	categories := r.Form["categories"] // This will be an array of selected category IDs

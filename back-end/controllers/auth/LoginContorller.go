@@ -94,6 +94,6 @@ func LginController(w http.ResponseWriter, r *http.Request) {
         Path:     "/",
     })
 
-    // Redirect to authenticated home page
+    // Redirect to aut	henticated home page
 	utils.TemplateController(w, r, "/user/AuthHome", nil)
 }
